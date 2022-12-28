@@ -32,7 +32,7 @@ Dokumentasi postman juga tersedia **[disini](https://documenter.getpostman.com/v
 
 ## ERD
 ![Optional Text](../main/docs/ERD.png)
-Dokumen ERD dibuat menggunakan draw.io. Database design dapat didownload **[disini](https://raw.githubusercontent.com/ekosijabat/ig-kenpai/main/docs/ERD.drawio)**
+Dokumen ERD dibuat menggunakan draw.io. Database design dalam format .drawio dapat didownload **[disini](https://raw.githubusercontent.com/ekosijabat/ig-kenpai/main/docs/ERD.drawio)**
 
 
 ## Pengerjaan
