@@ -90,12 +90,10 @@ class RegisterController extends BaseController {
                     return $this->sendError('', trans('messages.credential-failed'));
                 }
             } else {
-                return $this->sendError('Unauthorized', ['error' => 'Unauthorized']);
+                return $this->sendError('', trans('messages.credential-failed'));
             }
         } catch (Exception $e) {
             return $this->sendError('', ['error' => $e->getMessage()]);
         }
-
-
     }
 }
