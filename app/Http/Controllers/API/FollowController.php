@@ -18,16 +18,20 @@ class FollowController extends BaseController {
      */
     public function followers($id='') {
         $id = (!empty($id)) ? $id : Auth::user()->id;
-        $followers = Follower::with('followers')
-                    ->where(['user_id' => $id, 'status' => 1])
-                    ->get();
 
-        if ($followers->isNotEmpty()) {
-            return $this->sendResponse(FollowerResource::collection($followers));
-        } else {
-            return $this->sendResponse('', trans('messages.zero-followers'));
+        try {
+            $followers = Follower::with('followers')
+                        ->where(['user_id' => $id, 'status' => 1])
+                        ->get();
+
+            if ($followers->isNotEmpty()) {
+                return $this->sendResponse(FollowerResource::collection($followers));
+            } else {
+                return $this->sendResponse('', trans('messages.zero-followers'));
+            }
+        } catch (\Exception $e) {
+            return $this->sendError('', ['error' => $e->getMessage()]);
         }
-
     }
 
     /**
@@ -37,7 +41,9 @@ class FollowController extends BaseController {
      */
     public function following($id='') {
         $id = (!empty($id)) ? $id : Auth::user()->id;
-        $following = Follower::with('following')
+
+        try {
+            $following = Follower::with('following')
                     ->select([
                         '*',
                         \DB::raw("'following' action")
@@ -45,10 +51,13 @@ class FollowController extends BaseController {
                     ->where(['follower_id' => $id, 'status' => 1])
                     ->get();
 
-        if ($following->isNotEmpty()) {
-            return $this->sendResponse(FollowerResource::collection($following));
-        } else {
-            return $this->sendResponse('', trans('messages.zero-following'));
+            if ($following->isNotEmpty()) {
+                return $this->sendResponse(FollowerResource::collection($following));
+            } else {
+                return $this->sendResponse('', trans('messages.zero-following'));
+            }
+        } catch (\Exception $e) {
+            return $this->sendError('', ['error' => $e->getMessage()]);
         }
     }
 

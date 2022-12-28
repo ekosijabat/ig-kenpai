@@ -23,9 +23,13 @@ class PostsController extends BaseController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $posts = Post::with('post_pictures')->where(['status' => 2, 'user_id' => Auth::user()->id])->whereNull('deleted_by')->get();
+        try {
+            $posts = Post::with('post_pictures')->where(['status' => 2, 'user_id' => Auth::user()->id])->whereNull('deleted_by')->get();
 
-        return $this->sendResponse(PostsResource::collection($posts));
+            return $this->sendResponse(PostsResource::collection($posts));
+        } catch (\Exception $e) {
+            return $this->sendError('', ['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -48,34 +52,39 @@ class PostsController extends BaseController {
 
         $input['user_id'] = $input['created_by'] = Auth::user()->id;
 
-        $posts = Post::create($input);
+        try {
+            $posts = Post::create($input);
 
-        $saveImage = [];
-        if ($posts && !empty($input['image'])) {
-            $path = 'post_pic/' . date('Y') . '/' . date('m') . '/' . date('d');
-            \File::ensureDirectoryExists(public_path($path));
-            $image_64 = $input['image'];
-            foreach ($image_64 as $image64) {
-                $extension = explode('/', explode(':', substr($image64['pic'], 0, strpos($image64['pic'], ';')))[1])[1];
-                $replace = substr($image64['pic'], 0, strpos($image64['pic'], ',')+1);
-                $image = str_replace($replace, '', $image64['pic']);
-                $image = str_replace(' ', '+', $image);
-                $imageName = substr(time(), 6, 8) . Str::random(5) . '_' . $image64['name'];
+            $saveImage = [];
+            if ($posts && !empty($input['image'])) {
+                $path = 'post_pic/' . date('Y') . '/' . date('m') . '/' . date('d');
+                \File::ensureDirectoryExists(public_path($path));
+                $image_64 = $input['image'];
+                foreach ($image_64 as $image64) {
+                    $extension = explode('/', explode(':', substr($image64['pic'], 0, strpos($image64['pic'], ';')))[1])[1];
+                    $replace = substr($image64['pic'], 0, strpos($image64['pic'], ',')+1);
+                    $image = str_replace($replace, '', $image64['pic']);
+                    $image = str_replace(' ', '+', $image);
+                    $imageName = substr(time(), 6, 8) . Str::random(5) . '_' . $image64['name'];
 
-                \File::put(public_path($path) . '/' . $imageName, base64_decode($image));
+                    \File::put(public_path($path) . '/' . $imageName, base64_decode($image));
 
-                $saveImage[] = new PostPicture([
-                    'post_id' => $posts->id,
-                    'picture' => $imageName,
-                    'path' => $path,
-                    'created_by' => Auth::user()->id
-                ]);
+                    $saveImage[] = new PostPicture([
+                        'post_id' => $posts->id,
+                        'picture' => $imageName,
+                        'path' => $path,
+                        'created_by' => Auth::user()->id
+                    ]);
+                }
             }
+
+            $images = $posts->post_pictures()->saveMany($saveImage);
+
+            return $this->sendResponse('', trans('messages.post-success'));
+
+        } catch (\Exception $e) {
+            return $this->sendError('', ['error' => $e->getMessage()]);
         }
-
-        $images = $posts->post_pictures()->saveMany($saveImage);
-
-        return $this->sendResponse('', trans('messages.post-success'));
     }
 
     /**
@@ -84,12 +93,17 @@ class PostsController extends BaseController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $posts = Post::with('post_pictures')->where(['status' => 2, 'user_id' => $id])->whereNull('deleted_by')->get();
+        try {
+            $posts = Post::with('post_pictures')->where(['status' => 2, 'user_id' => $id])->whereNull('deleted_by')->get();
 
-        if ($posts->isNotEmpty()) {
-            return $this->sendResponse(PostsResource::collection($posts));
-        } else {
-            return $this->sendResponse('', trans('messages.post-empty'));
+            if ($posts->isNotEmpty()) {
+                return $this->sendResponse(PostsResource::collection($posts));
+            } else {
+                return $this->sendResponse('', trans('messages.post-empty'));
+            }
+
+        } catch (\Exception $e) {
+            return $this->sendError('', ['error' => $e->getMessage()]);
         }
     }
 
@@ -167,12 +181,16 @@ class PostsController extends BaseController {
      * @return \Illuminate\Http\Response
      */
     public function listlikes($id) {
-        $posts = Post::with('post_likes.user')->where('id', $id)->first();
+        try {
+            $posts = Post::with('post_likes.user')->where('id', $id)->first();
 
-        if ($posts->post_likes->isNotEmpty()) {
-            return $this->sendResponse(new PostLikesListResource($posts));
-        } else {
-            return $this->sendResponse('', trans('messages.post-like-empty'));
+            if ($posts->post_likes->isNotEmpty()) {
+                return $this->sendResponse(new PostLikesListResource($posts));
+            } else {
+                return $this->sendResponse('', trans('messages.post-like-empty'));
+            }
+        } catch (\Exception $e) {
+            return $this->sendError('', ['error' => $e->getMessage()]);
         }
     }
 
@@ -213,14 +231,18 @@ class PostsController extends BaseController {
      * @return \Illuminate\Http\Response
      */
     public function listcomments($id) {
-        $posts = PostComment::with('user')->where('post_id', $id)->tree()->get()->toTree();
+        try {
+            $posts = PostComment::with('user')->where('post_id', $id)->tree()->get()->toTree();
 
-        if ($posts->isNotEmpty()) {
-            return $this->sendResponse(PostCommentResource::collection($posts));
-        } else {
-            return $this->sendResponse('', trans('messages.post-comment-empty'));
+            if ($posts->isNotEmpty()) {
+                return $this->sendResponse(PostCommentResource::collection($posts));
+            } else {
+                return $this->sendResponse('', trans('messages.post-comment-empty'));
+            }
+
+        } catch (\Exception $e) {
+            return $this->sendError('', ['error' => $e->getMessage()]);
         }
-
     }
 
 }
