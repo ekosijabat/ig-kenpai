@@ -38,7 +38,7 @@ Dokumen ERD dibuat menggunakan draw.io. Database design dalam format .drawio dap
 ## Pengerjaan
 1. Pengerjaan menggunakan Laravel Passport
 2. Controller menggunakan extend dari BaseController
-3. Seluruh custom message dihandle pada folder lang/en/messages.php dan dipanggil menggunakan fungsi trans
+3. Seluruh validation dan custom message dihandle pada folder lang/id/ dan dipanggil menggunakan fungsi trans
 4. Image yang dikirim ke API menggunakan base64_encode dan diproses menggunakan base64_decode di API
 
 
