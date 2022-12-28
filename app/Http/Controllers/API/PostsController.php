@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
+use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\PostPicture;
 use App\Models\PostLikes;
@@ -232,10 +233,12 @@ class PostsController extends BaseController {
      */
     public function listcomments($id) {
         try {
-            $posts = PostComment::with('user')->where('post_id', $id)->tree()->get()->toTree();
+            $posts = PostComment::with('user')->where('post_id', $id)->tree()->get()->toTree()->toArray();
 
-            if ($posts->isNotEmpty()) {
-                return $this->sendResponse(PostCommentResource::collection($posts));
+            $postTree = self::filterTree($posts);
+
+            if (!empty($postTree)) {
+                return $this->sendResponse($postTree[0]);
             } else {
                 return $this->sendResponse('', trans('messages.post-comment-empty'));
             }
@@ -244,5 +247,19 @@ class PostsController extends BaseController {
             return $this->sendError('', ['error' => $e->getMessage()]);
         }
     }
+
+    private function filterTree(&$arr, $result=[]) {
+        foreach ($arr as $key => &$item) {
+            $result[$key] = [
+                'id' => $item['id'],
+                'name' => $item['user']['first_name'] . ' ' . $item['user']['last_name'],
+                'comment_parent_id' => $item['comment_parent_id'],
+                'comment' => $item['comments'],
+                'created' => Carbon::parse($item['created_at'])->format('d-m-Y'),
+                'children' => self::filterTree($item['children'], @$result[$key])
+            ];
+        }
+        return $result;
+      }
 
 }

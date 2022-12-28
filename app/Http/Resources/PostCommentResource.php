@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\PostLikesResource;
+use Carbon\Carbon;
 
 class PostCommentResource extends JsonResource
 {
@@ -17,11 +18,9 @@ class PostCommentResource extends JsonResource
     {
         return [
             'id'    => $this->id,
-            'user'  => $this->user->first_name . ' ' . $this->user->last_name,
-            'comments'  => $this->comments,
-            'created' => $this->created_at->format('d-m-Y'),
-            #'children' => PostCommentResource::collection($this->whenLoaded('post_comments'))
+            'user'  => $this->name,
+            'comments'  => $this->comment,
+            'created' => Carbon::parse($this->created)->format('d-m-Y'),
         ];
-
     }
 }

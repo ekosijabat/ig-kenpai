@@ -332,6 +332,82 @@
 							"body": "{\n    \"status\": 200,\n    \"success\": true,\n    \"data\": {\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjJmNDY3NGY0NDYzNzVlNjVlODdjNzZiZTdmNjhhZmUyNjQyYjcxNWM5MmM5YjU3YTgwYzA3N2NiMmZjYmZiMmEzZjczNTU4YWE5NzE4OWYiLCJpYXQiOjE2NzIxNzY3NTUuNjgwODk3LCJuYmYiOjE2NzIxNzY3NTUuNjgwODk5LCJleHAiOjE3MDM3MTI3NTUuNjczNDQzLCJzdWIiOiIyNyIsInNjb3BlcyI6W119.dfNj3CyokDnnWUlqwKeUTD6-PSKg6ifrJ4Xcd2d9pNxUYdleVAv2ZE5ttD80im_Stu_CuQUZo58mt8bLPBFTnCEq9DQuwTmg7vprZW-Nmm66zGHGO-RxsKqn5Ml3Bm6rpJuZqLYjj2OowyOhWndiF2P81ih4ZXJ5QM64d_uK84-BA4xDNPnKbZCBr5nrCLIP_BD05TYU68DCfZTZc-sTZisv2eiF7FD90kD84aMA6I5ADB6EA-8up8kAjdj8RhaCase9OQCrmXhyyT5cauBZnt-bIWoosrT_xqEdXM6qhj7lskSDttxWWMqBoaXC77LwwWGTWLG0Levl7VHMBYYUxFLChCm09X-6uO8icxEbm5urtqVziWfY2P3w4ITtPdbPTsfpzSpWh_lgNnVhRNeTG_aBqnQ4HeqjHBxMZ-80Iw6UQHysXNQ_70ftlhA1senI6L3ypNf0dx0FvDYZT0hEUYclRzioqk6syi5VfpbhhlgKCcBRd2ltUqpElW44qKuiP2JOuBeT9hUJfEGdcnp_xqmJiObmkY6SYFwizMwdTd1SMMelhJ58GCFP5DVZ2pAtievZwOCy3VeolXY1scIqPGVEdJMey5HZGA_lTn3ivn8xIStO9qYFGHQgNNVe6Uiwp755t_gmXFimDUI64SVFG0TOElafStGWzbTYDfGvnQU\",\n        \"name\": \"Eko\"\n    },\n    \"message\": \"Login berhasil\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "---\n\n## Description\n\n> Fungsi API ini untuk **logout**. Response yang diterima pada bagian ini akan menghapus token dan user tidak bisa mengakses fitur sebelum login kembali.\n\n---\n\n## Authentication\n\n| Field | **Tipe** | Mandatory | Keterangan |\n| --- | --- | --- | --- |\n| token | Bearer Token | Y | token unik per akun yang didapatkan saat akun login |\n\n---\n\n## Request Example"
+					},
+					"response": [
+						{
+							"name": "Logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 03:17:15 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 03:17:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.1.13"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"success\": true,\n    \"message\": \"Logout berhasil\"\n}"
+						}
+					]
 				}
 			],
 			"description": "Bagian ini bertujuan untuk menghandle proses yang berhubungan dengan **authentifikasi**\n\n## List Fungsi\n\n- Register\n- Login\n- Logout"
@@ -1140,14 +1216,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8000/api/listcomments/1",
-									"protocol": "http",
+									"raw": "{{url}}/listcomments/1",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
 										"listcomments",
 										"1"
 									]
@@ -1163,11 +1236,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 27 Dec 2022 22:02:29 GMT"
+									"value": "Wed, 28 Dec 2022 05:37:27 GMT"
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 27 Dec 2022 22:02:29 GMT"
+									"value": "Wed, 28 Dec 2022 05:37:27 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1191,7 +1264,7 @@
 								},
 								{
 									"key": "X-RateLimit-Remaining",
-									"value": "58"
+									"value": "59"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -1199,7 +1272,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": 200,\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"user\": \"Lesmana Sijabat\",\n            \"comments\": \"bagus banget\",\n            \"created\": \"27-12-2022\"\n        }\n    ],\n    \"message\": \"\"\n}"
+							"body": "{\n    \"status\": 200,\n    \"success\": true,\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Eko Lesmana\",\n        \"comment_parent_id\": null,\n        \"comment\": \"iya bagus banget\",\n        \"created\": \"28-12-2022\",\n        \"children\": [\n            {\n                \"id\": 2,\n                \"name\": \"Eko Oncom\",\n                \"comment_parent_id\": 1,\n                \"comment\": \"iya bagus banget nih\",\n                \"created\": \"28-12-2022\",\n                \"children\": null\n            },\n            {\n                \"id\": 3,\n                \"name\": \"David Prodya\",\n                \"comment_parent_id\": 1,\n                \"comment\": \"hidden gems banget\",\n                \"created\": \"28-12-2022\",\n                \"children\": [\n                    {\n                        \"id\": 4,\n                        \"name\": \"Eko Lesmana\",\n                        \"comment_parent_id\": 3,\n                        \"comment\": \"kuy kapan main kesini\",\n                        \"created\": \"28-12-2022\",\n                        \"children\": null\n                    }\n                ]\n            }\n        ]\n    },\n    \"message\": \"\"\n}"
 						}
 					]
 				}
