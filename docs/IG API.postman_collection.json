@@ -336,8 +336,27 @@
 				{
 					"name": "Logout",
 					"request": {
-						"method": "GET",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDdiMDhiOTM1NjkwZjBkZWFhMTRmNDU4NTdhMzY0ZjVjNzhjNTE2OTIyZjM5OGUwYmE5YWQwYzczMmFmZTUyZjY3NmE5MzVlODU3ZWY4NWEiLCJpYXQiOjE2NzIxOTY4OTguOTQwMjk1LCJuYmYiOjE2NzIxOTY4OTguOTQwMzAzLCJleHAiOjE3MDM3MzI4OTguOTE4Njc3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.eMRgTHPWcOgJBY57WNdwXUj5VezVftNIkjvfedvVY077M1R_CW4pbPJFDKb2ibTKhH4jxAJP4Ki-6fPGU8QZnwAFaRADnSi3ujamcEARLXsaEb-Ac4Xu25ILhPG53KU2647Lj-7-wt7TUeK72XnyIHjXRHizSZVC3PapEHSzXc0DRPLvd4p4VEbL6CmV4gYsPazUID28BJkClbTt0gd0h6hzzFZ3b5wpDVw_rYZ83sQBLNQHDIKx6OHK6uf1sKD274efkw5vgelGU6WmNMf9nkm1qkmzxNBYkqCwmW0FgXaZGgt6bm6U81Klshc0TjRgWhTZvxoY_LzcWK81KobU0sjiS2u9IUN3da4k4qy9IiH6MELRbL3QuwE1at14pqa3bY5bJOBpOYMN6rlCB_0EttoO-fmZNrnn084UoqXpQcMcxPYUmOX8hXB-k2SvAAmEG7_YUomxZbIDjwZhlwv1uAaTwV6XUQVZfQbyFpwlt3BwAFjzd1z4LH6Yg8UCDvJ5VaJopoMMimzZwf1TgzCpXrMuZN1QVw-UMuUwZ8UU-8zBm50Z5UX_nVm_xKbp8YRN3-c2r_jf41zJNLNlxQHjm6ydfFJBJhzwPuaTvF8dnAaIyi6bI4mqPt4lgvFGFIl4aJy6asMowlHR4G3yeJIIsBU2tHPu4uueusXKUq-xOt4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
 						"header": [],
+						"url": {
+							"raw": "{{url}}/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"logout"
+							]
+						},
 						"description": "---\n\n## Description\n\n> Fungsi API ini untuk **logout**. Response yang diterima pada bagian ini akan menghapus token dan user tidak bisa mengakses fitur sebelum login kembali.\n\n---\n\n## Authentication\n\n| Field | **Tipe** | Mandatory | Keterangan |\n| --- | --- | --- | --- |\n| token | Bearer Token | Y | token unik per akun yang didapatkan saat akun login |\n\n---\n\n## Request Example"
 					},
 					"response": [
@@ -1216,11 +1235,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/listcomments/1",
+									"raw": "http://localhost:8000/api/listcomments/1",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8000",
 									"path": [
+										"api",
 										"listcomments",
 										"1"
 									]
