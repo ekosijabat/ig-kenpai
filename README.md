@@ -42,14 +42,7 @@ Dokumen ERD dibuat menggunakan draw.io. Database design dapat didownload **[disi
 4. Image yang dikirim ke API menggunakan base64_encode dan diproses menggunakan base64_decode di API
 
 
-## Response Code
-| Name | Description                   | Example                 |
-|------|-------------------------------| ------------------------|
-| 200  | Success | <pre>{<br>  "code": 200,<br>  "success": true,<br>  "message": "Thank you. We receive and process your orders."<br>}</pre> |
-| 401  | Time exceeded | <pre>{<br>  "code": 401,<br>  "success": false,<br>  "message": "Time exceeded. Please re-login."<br>}</pre> |
-| 409  | Failed to execute the process | <pre>{<br>  "code": 409,<br>  "success": false,<br>  "message": "There is connection problem. Please try again later.",<br>  "error": "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'test' in 'where clause' (SQL: select * from `restaurant` where `test` = abc limit 1)"<br>}</pre> |
-| 422  | Validation | <pre>{<br>  "code": 422,<br>  "success": false,<br>  "message": "You can't check the data because you are not customer"<br>}</pre> |
 
-
+Note: Seluruh dokumentasi ada di folder **docs**
 
 Thank you.
