@@ -96,4 +96,31 @@ class RegisterController extends BaseController {
             return $this->sendError('', ['error' => $e->getMessage()]);
         }
     }
+
+    /** Logout API
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function logout(Request $request) {
+        if (Auth::check()) {
+            try {
+                $token = Auth::user()->token();
+                $token->revoke();
+
+                return $this->sendResponse('', trans('messages.logout'));
+            } catch (\Exception $e) {
+                return $this->sendError('', ['error' => $e->getMessage()]);
+            }
+        } else {
+            return $this->sendError('', trans('messages.failed'));
+        }
+    }
+
+    /** Check authentication user
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function unauthenticated() {
+        return $this->sendError(trans('messages.login-needed'), '', 403);
+    }
 }

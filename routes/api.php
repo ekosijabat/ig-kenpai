@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\RegisterController;
-use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\PostsController;
 use App\Http\Controllers\API\FollowController;
 use App\Http\Controllers\API\UserController;
@@ -27,11 +26,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
-#Route::resource('posts', PostsController::class)->exclude(['index', 'show']);
+Route::get('unauthenticated', [RegisterController::class, 'unauthenticated']);
 
 Route::middleware('auth:api')->group(function() {
-    Route::resource('products', ProductController::class);
-
     Route::resource('posts', PostsController::class);
     Route::post('likes', [PostsController::class, 'likes']);
     Route::post('unlikes', [PostsController::class, 'unlikes']);
@@ -46,4 +43,6 @@ Route::middleware('auth:api')->group(function() {
     Route::post('search', [UserController::class, 'search']);
     Route::post('follows', [UserController::class, 'follows']);
     Route::post('unfollow', [UserController::class, 'unfollow']);
+
+    Route::post('logout', [RegisterController::class, 'logout']);
 });

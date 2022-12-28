@@ -36,8 +36,6 @@ class PostsController extends BaseController {
      */
     public function store(Request $request) {
         $input = $request->all();
-        #print_r ($input['image']);
-        #die;
 
         $validator = Validator::make($input, [
             'caption'   => 'required',
@@ -52,11 +50,10 @@ class PostsController extends BaseController {
 
         $posts = Post::create($input);
 
-        #die;
-
         $saveImage = [];
         if ($posts && !empty($input['image'])) {
             $path = 'post_pic/' . date('Y') . '/' . date('m') . '/' . date('d');
+            \File::ensureDirectoryExists(public_path($path));
             $image_64 = $input['image'];
             foreach ($image_64 as $image64) {
                 $extension = explode('/', explode(':', substr($image64['pic'], 0, strpos($image64['pic'], ';')))[1])[1];
@@ -75,28 +72,17 @@ class PostsController extends BaseController {
                 ]);
             }
         }
-        /*if ($posts && $request->hasfile('image')) {
-            $images = $request->file('image');
-            $path = 'post_pic/' . date('Y') . '/' . date('m') . '/' . date('d');
-            foreach ($images as $image) {
-                $name = $image->getClientOriginalName();
-                $filename = substr(time(), 6, 8) . Str::random(5) . '_' . $image->getClientOriginalName();
-                $image->move(public_path($path), $filename);
-
-                $saveImage[] = new PostPicture([
-                    'post_id'   => $posts->id,
-                    'picture'   => $filename,
-                    'path'      => $path,
-                    'created_by' => Auth::user()->id
-                ]);
-            }
-        }*/
 
         $images = $posts->post_pictures()->saveMany($saveImage);
 
         return $this->sendResponse('', trans('messages.post-success'));
     }
 
+    /**
+     * Show posts base on user id
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function show($id) {
         $posts = Post::with('post_pictures')->where(['status' => 2, 'user_id' => $id])->whereNull('deleted_by')->get();
 
@@ -107,6 +93,11 @@ class PostsController extends BaseController {
         }
     }
 
+    /**
+     * Process like a post by current user login
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function likes(Request $request) {
         $input = $request->all();
 
@@ -140,6 +131,11 @@ class PostsController extends BaseController {
         }
     }
 
+    /**
+     * Process unlike a post base on current user login
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function unlikes(Request $request) {
         $input = $request->all();
 
@@ -165,6 +161,11 @@ class PostsController extends BaseController {
         }
     }
 
+    /**
+     * Get list of likes base on current user login
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function listlikes($id) {
         $posts = Post::with('post_likes.user')->where('id', $id)->first();
 
@@ -175,6 +176,11 @@ class PostsController extends BaseController {
         }
     }
 
+    /**
+     * Process to create comment to a post base on current user login
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function comments(Request $request) {
         $input = $request->all();
 
@@ -201,6 +207,11 @@ class PostsController extends BaseController {
         }
     }
 
+    /**
+     * Get list of comments in a post
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function listcomments($id) {
         $posts = PostComment::with('user')->where('post_id', $id)->tree()->get()->toTree();
 

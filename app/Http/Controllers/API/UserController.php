@@ -15,6 +15,11 @@ use App\Models\Follower;
 
 class UserController extends BaseController
 {
+    /**
+     * Get profile current login user
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index() {
         try {
             $user = User::findOrFail(Auth::user()->id);
@@ -29,6 +34,11 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * Get profile base on user id
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function show($id) {
         try {
             $user = User::findOrFail($id);
@@ -68,6 +78,11 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * Process to follow other user
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function follows(Request $request) {
         $input = $request->all();
 
@@ -92,6 +107,11 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * Process to unfollow other user
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function unfollow(Request $request) {
         $input = $request->all();
 

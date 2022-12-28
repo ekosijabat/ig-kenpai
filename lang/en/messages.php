@@ -7,6 +7,8 @@ return [
     'account-register-success' => 'Registrasi akun berhasil. Silahkan login untuk menikmati aplikasi kami',
     'login-success' => 'Login berhasil',
     'credential-failed' => 'Username atau password salah. Gunakan data yang benar',
+    'login-needed' => 'Kamu harus login terlebih dahulu',
+    'logout' => 'Logout berhasil',
 
     'follow-success' => 'Congrats. Kamu telah berhasil follow akun ini.',
     'follow-already' => 'Akun ini sudah ada dalam list following kamu.',
